@@ -62,9 +62,9 @@ In our experiments with the C-Tran model, we consistently used the Binary Cross-
 
 | Feature Extractor | Activation | Encoder Layers | Label Masking | Known Labels | Label State | Test Accuracy |
 |-------------------|------------|----------------|---------------|--------------|-------------|---------------|
-| ResNet101         | Softmax    | 3              | Yes           | 0            | All         | 90.1          |
-| EfficientNetB0    | Sigmoid    | 3              | Yes           | 0            | All         | 91.3          |
-| MobileNetV2       | Sigmoid    | 2              | No            | 0            | All         | 91.3          |
+| ResNet101         | Softmax    | 3              | Yes           | 0            | Total         | 90.1         |
+| EfficientNetB0    | Sigmoid    | 3              | Yes           | 0            | Total        | 91.3          |
+| MobileNetV2       | Sigmoid    | 2              | No            | 0            | Total        | 91.3          |
 
 **Evaluation:**
 The C-Tran model demonstrates superior performance in multi-label classification by effectively capturing both the relationships among image features and the semantic correlations among labels. Across different configurations, backbones like MobileNetV2 and EfficientNetB0 both achieved high test accuracy (91.3), but MobileNetV2 is preferred due to its lower parameter count and computational efficiency.
@@ -82,7 +82,7 @@ We explored the integration of the Single Positive Labels model into the C-Tran.
 
 | Activation | Encoder Layers | Label Masking | Known Labels | Label State |
 |------------|----------------|---------------|--------------|-------------|
-| Sigmoid    | 3              | Yes           | 0            | All         |
+| Sigmoid    | 3              | Yes           | 0            | Total         |
 
 **Table 4. Combined Model Results**
 
