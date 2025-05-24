@@ -64,7 +64,7 @@ In our experiments with the C-Tran model, we consistently used the Binary Cross-
 |-------------------|------------|----------------|---------------|--------------|-------------|---------------|
 | ResNet101         | Softmax    | 3              | Yes           | 0            | Total         | 90.1         |
 | EfficientNetB0    | Sigmoid    | 3              | Yes           | 0            | Total        | 91.3          |
-| MobileNetV2       | Sigmoid    | 2              | No            | 0            | Total        | 91.3          |
+| MobileNetV2       | Sigmoid    | 2              | Yes            | 0            | Total        | 91.3          |
 
 **Evaluation:**
 The C-Tran model demonstrates superior performance in multi-label classification by effectively capturing both the relationships among image features and the semantic correlations among labels. Across different configurations, backbones like MobileNetV2 and EfficientNetB0 both achieved high test accuracy (91.3), but MobileNetV2 is preferred due to its lower parameter count and computational efficiency.
