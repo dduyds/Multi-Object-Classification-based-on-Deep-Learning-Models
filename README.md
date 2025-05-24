@@ -7,7 +7,7 @@ Our research focuses on improving dataset quality in multi-label image classific
 
 # Proposed Models
 
-## 1. C-Tran Model
+## 1. [C-Tran Model](https://github.com/QData/C-Tran)
 C-Tran is designed to capture complex dependencies between image features and labels. It trains the Transformer Encoder to predict a target label set from inputs that include masked labels and image features extracted by convolutional neural networks. A key innovation is a three-state label masking scheme representing positive, negative, and uncertain states. This approach has proven effective, achieving improved performance on challenging datasets.
 
 **Improvements made on C-Tran:**
@@ -17,7 +17,7 @@ C-Tran is designed to capture complex dependencies between image features and la
 - Removed label state addition method
 - Changed activation function
 
-## 2. Positive-Only Label Model
+## 2. [Single Positive Labels Model](https://github.com/elijahcole/single-positive-multi-label)
 Building upon previous PU learning approaches, this model assumes only one positive label per image without confirmed negative labels. It extends existing multi-label loss functions to handle various learning modes, including training linear classifiers or fine-tuning deep networks end-to-end.
 
 **Improvements made:**
@@ -26,8 +26,8 @@ Building upon previous PU learning approaches, this model assumes only one posit
 - Enhanced classifier layers
 - Refined mean and standard deviation calculations
 
-## 3. Combined Model: C-Tran + Positive-Only Label
-We experimented with integrating the Positive-Only Label model and C-Tran, aiming to combine simplified input labels with C-Tran’s ability to learn relationships between features and labels. The input label vectors retain only one positive label, with others marked unknown. The label state embedding matrix S is set to uncertain states in the combined architecture. The model calculates losses over all labels, not just unknown ones. The feature extractor in C-Tran was replaced with that from the Positive-Only Label model, and the best-performing loss functions from the latter (ROLE, AN-LS, Huber) were tested.
+## 3. Combined Model: C-Tran + Single Positive Labels
+We experimented with integrating the Single Positive Labels model and C-Tran, aiming to combine simplified input labels with C-Tran’s ability to learn relationships between features and labels. The input label vectors retain only one positive label, with others marked unknown. The label state embedding matrix S is set to uncertain states in the combined architecture. The model calculates losses over all labels, not just unknown ones. The feature extractor in C-Tran was replaced with that from the Positive-Only Label model, and the best-performing loss functions from the latter (ROLE, AN-LS, Huber) were tested.
 
 # Data Preprocessing Proposal
 To address image-related technical issues, we propose cropping images to remove as much background as possible while retaining main objects. Cropping regions are defined by top-left and bottom-right points. The cropped images are then used as training data to improve model efficiency.
@@ -37,10 +37,10 @@ To address image-related technical issues, we propose cropping images to remove 
 ## Dataset Origin
 The dataset for evaluation is from the Food Recognition Benchmark 2022, consisting of daily meal images taken by volunteers in Switzerland. The images were collected, categorized, and annotated by the organization Food & You.
 
-## 1. Positive-Only Label Model
+## 1. Single Positive Labels
 We conducted experiments on the Positive-Only Label model to evaluate different loss functions, training modes, and activation functions. The results are summarized in **Table 1**.
 
-**Table 1. Positive-Only Label Model Results**
+**Table 1. Single Positive Labels Results**
 
 | Loss Function | Training Mode     | Activation | mAP (Validation) | mAP (Test) |
 |---------------|-------------------|------------|------------------|------------|
@@ -48,7 +48,7 @@ We conducted experiments on the Positive-Only Label model to evaluate different 
 | AN-LS         | End-to-end        | Sigmoid    | 24.2951          | 34.6173    |
 | AN-LS         | Transfer Learning | Sigmoid    | 24.4427          | 34.8327    |
 
-**Evaluation**
+**Evaluation:**
 The experimental results show that the Positive-Only Label model performs best when using the AN-LS loss function with the transfer learning mode. This suggests that transfer learning significantly improves the model’s learning capability in scenarios where negative labels are absent. Additionally, the sigmoid activation function consistently outperforms softmax, which aligns well with the binary nature of multi-label classification tasks.
 
 In terms of backbone networks, ResNet50 yields better results than EfficientNetB7, indicating that a deeper or more complex model does not always correlate with better performance for this task. Among the loss functions tested, the Huber loss, a newly introduced one, performed better than ROLE, which was originally considered the best for this model. However, a key limitation of this approach is that it only considers a single positive label per training instance, making it less effective in modeling label dependencies.
@@ -66,17 +66,17 @@ In our experiments with the C-Tran model, we consistently used the Binary Cross-
 | EfficientNetB0    | Sigmoid    | 3              | Yes           | 0            | All         | 91.3          |
 | MobileNetV2       | Sigmoid    | 2              | No            | 0            | All         | 91.3          |
 
-**Evaluation**
+**Evaluation:**
 The C-Tran model demonstrates superior performance in multi-label classification by effectively capturing both the relationships among image features and the semantic correlations among labels. Across different configurations, backbones like MobileNetV2 and EfficientNetB0 both achieved high test accuracy (91.3), but MobileNetV2 is preferred due to its lower parameter count and computational efficiency.
 
 Replacing the softmax activation with sigmoid improved output quality. Experiments with encoder layer counts ranging from 2 to 4 showed little variation in results, but 2 layers offered a good trade-off between accuracy and model complexity. Whether or not label masking was used during training, or prior knowledge of the number of labels was given, did not significantly affect performance. The "summed state" approach for label state embedding outperformed the "product state," emphasizing the importance of label state representation.
 
-Compared to the Positive-Only Label model, C-Tran performs significantly better because it is trained on the full dataset and is architecturally optimized for learning inter-label correlations — which is particularly crucial for complex multi-label datasets.
+Compared to the Single Positive Labels model, C-Tran performs significantly better because it is trained on the full dataset and is architecturally optimized for learning inter-label correlations — which is particularly crucial for complex multi-label datasets.
 
 
 
-## 3. Combined Model (C-Tran + Positive-Only Label)
-We explored the integration of the Positive-Only Label model into the C-Tran framework. In this setup, each label vector retains only one positive label, and other labels are marked as unknown. The label state matrix in C-Tran was set entirely to “unknown.” Loss was computed over all labels. Additionally, we used the feature extractors and loss functions that performed best in previous individual experiments.
+## 3. Combined Model (C-Tran + Single Positive Labels)
+We explored the integration of the Single Positive Labels model into the C-Tran. In this setup, each label vector retains only one positive label, and other labels are marked as unknown. The label state matrix in C-Tran was set entirely to “unknown.” Loss was computed over all labels. Additionally, we used the feature extractors and loss functions that performed best in previous individual experiments.
 
 **Table 3. Combined Model Configuration**
 
@@ -92,8 +92,8 @@ We explored the integration of the Positive-Only Label model into the C-Tran fra
 | MobileNetV2       | AN-LS         | 51.0          |
 | MobileNetV2       | HU            | 47.0          |
 
-**Evaluation**
-This hybrid model aimed to integrate the simplified label input structure of the Positive-Only Label model with the label-dependency modeling strength of C-Tran. However, the results indicate that the combined model does not outperform the original C-Tran.
+**Evaluation:**
+This hybrid model aimed to integrate the simplified label input structure of the Single Positive Labels model with the label-dependency modeling strength of C-Tran. However, the results indicate that the combined model does not outperform the original C-Tran.
 
 Specifically, the configuration using the ROLE loss function with EfficientNetB0 as the feature extractor gave the best result (test mAP = 54.9), surpassing the configurations that used AN-LS and Huber. 
 Nevertheless, this still falls short compared to the ~91.3% test accuracy achieved by the original C-Tran. This gap may stem from the reduction in label richness in the input, which prevents the model from leveraging the full capability of the C-Tran architecture. Furthermore, setting all labels to an "unknown" state might introduce noise, making it harder for the model to learn meaningful semantic relationships.
