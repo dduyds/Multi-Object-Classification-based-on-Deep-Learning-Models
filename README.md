@@ -6,8 +6,8 @@ Note: This repository includes the presentation slides summarizing my graduation
 Our research focuses on improving dataset quality in multi-label image classification, a task that requires sophisticated and precise processing. Key challenges include handling images containing irrelevant objects outside the labeled set, which degrade data quality and reduce model accuracy. Another major issue is label imbalance, where frequent labels dominate learning, causing poor performance on rare labels. Additionally, semantic similarity among labels makes distinguishing between them difficult, demanding models capable of fine-grained differentiation. To tackle these problems, we applied image preprocessing to remove unnecessary objects and refined existing models to enhance classification performance. The proposed improvements showed promising results on challenging datasets.
 
 # Proposed Models
-
-## 1. [C-Tran Model](https://github.com/QData/C-Tran)
+In this study, we primarily focus our efforts on the development and evaluation of two principal models: [C-Tran Model](https://github.com/QData/C-Tran) and [Single Positive Labels Model](https://github.com/elijahcole/single-positive-multi-label).
+## 1. C-Tran Model
 C-Tran is designed to capture complex dependencies between image features and labels. It trains the Transformer Encoder to predict a target label set from inputs that include masked labels and image features extracted by convolutional neural networks. A key innovation is a three-state label masking scheme representing positive, negative, and uncertain states. This approach has proven effective, achieving improved performance on challenging datasets.
 
 **Improvements made on C-Tran:**
@@ -17,7 +17,7 @@ C-Tran is designed to capture complex dependencies between image features and la
 - Removed label state addition method
 - Changed activation function
 
-## 2. [Single Positive Labels Model](https://github.com/elijahcole/single-positive-multi-label)
+## 2. Single Positive Labels Model
 Building upon previous PU learning approaches, this model assumes only one positive label per image without confirmed negative labels. It extends existing multi-label loss functions to handle various learning modes, including training linear classifiers or fine-tuning deep networks end-to-end.
 
 **Improvements made:**
