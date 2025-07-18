@@ -98,8 +98,9 @@ This hybrid model aimed to integrate the simplified label input structure of the
 Specifically, the configuration using the ROLE loss function with EfficientNetB0 as the feature extractor gave the best result (test mAP = 54.9), surpassing the configurations that used AN-LS and Huber. 
 Nevertheless, this still falls short compared to the ~91.3% test accuracy achieved by the original C-Tran. This gap may stem from the reduction in label richness in the input, which prevents the model from leveraging the full capability of the C-Tran architecture. Furthermore, setting all labels to an "unknown" state might introduce noise, making it harder for the model to learn meaningful semantic relationships.
 
-## 4. Model Showcase: Our Best Performer. 
-[Video demo](https://drive.google.com/file/d/1mdZl9i_0eHUslkAOcBJ4Oc-MYlV-xw-b/view?usp=sharing))
+## 4. Model Showcase (Our Best Performer)
+
+[Video demo](https://drive.google.com/file/d/1mdZl9i_0eHUslkAOcBJ4Oc-MYlV-xw-b/view?usp=sharing)
 
 
 # Conclusion
